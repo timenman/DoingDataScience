@@ -1,8 +1,14 @@
-setwd("C:\\Users\\Timbo\\Desktop\\R\\nytdata")
+setwd("C:\\Users\\tenman\\Desktop\\R\\nytdata")
 #TODO: Write a script that cycles through the csv. Open CSV performs the analysis, and write those larger
 #conclusions to a dataframe, unload csv, read new csv, repeat.
 counter = 1
-dirlength <- length(list.files("C:\\Users\\Timbo\\Desktop\\R\\nytdata"))
+dirlength <- length(list.files("C:\\Users\\tenman\\Desktop\\R\\nytdata"))
+#C:\Users\tenman\Desktop\R\nytdata
+
+#declare empty data frame
+
+master_df <- data.frame(Age=integer(), Gender=integer(), Impressions=integer(), Clicks=integer(), Signed_In=integer(), age_group=integer(), ctr=double(), hasimps=integer(), scode=integer(), day=double())
+
 while (counter <= dirlength)
 {  df <- read.csv(paste("nyt",toString(counter),".csv", sep=""))
 
@@ -10,6 +16,10 @@ while (counter <= dirlength)
 #Create a new variable, age_group, that categorizes users as "< 18", "18-24", "25-34", "35-44", "45-54", "55-64", and "65 +".
 
 df$age_group <- cut(df$Age, c(-Inf,0, 18, 24, 34, 44, 54, 64, Inf))
+
+#Create a new variable "day"
+
+df$day <- counter
 
 #For a single day: Plot the distributions of number impressions and click-through-rate (CTR =# clicks/# impressions) for these six age categories.
 #Define Click-Through_Rate
@@ -53,9 +63,10 @@ clen <- function(x){c(length(x))}
 paste("etable", counter, ".csv" )<- summaryBy(Impressions~scode+Gender+age_group, data = df, FUN=clen)
 rm(df)
 counter+1
-}
 
-for(i in counter:dirlength){
-  nam <- paste("etable", counter, ".csv", sep="")
-  assign(nam,1:i)
+
+#for(i in counter:dirlength){
+#  nam <- paste("etable", counter, ".csv", sep="")
+#  assign(nam,1:i)
+#}
 }
