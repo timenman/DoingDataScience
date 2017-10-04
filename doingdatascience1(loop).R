@@ -1,13 +1,16 @@
-setwd("C:\\Users\\tenman\\Desktop\\R\\nytdata")
+setwd("C:\\Users\\Timbo\\Desktop\\R\\nytdata")
+
+##setwd("C:\\Users\\tenman\\Desktop\\R\\nytdata")
 #TODO: Write a script that cycles through the csv. Open CSV performs the analysis, and write those larger
 #conclusions to a dataframe, unload csv, read new csv, repeat.
 counter = 1
-dirlength <- length(list.files("C:\\Users\\tenman\\Desktop\\R\\nytdata"))
+dirlength <- length(list.files("C:\\Users\\Timbo\\Desktop\\R\\nytdata"))
 #C:\Users\tenman\Desktop\R\nytdata
+#C:\\Users\\tenman\\Desktop\\R\\nytdata
 
 #declare empty data frame
 
-master_df <- data.frame(Age=integer(), Gender=integer(), Impressions=integer(), Clicks=integer(), Signed_In=integer(), age_group=integer(), ctr=double(), hasimps=integer(), scode=integer(), day=double())
+summary_df <- data.frame(scode=factor(), Gender=integer(), Impressions.clen=integer(), age_group=factor(), day=numeric())
 
 while (counter <= dirlength)
 {  df <- read.csv(paste("nyt",toString(counter),".csv", sep=""))
@@ -60,13 +63,14 @@ head(df)
 #Counts number of impressions by  Impression/Clicks category (scode), further
 #broken down by gender and age group.
 clen <- function(x){c(length(x))}
-paste("etable", counter, ".csv" )<- summaryBy(Impressions~scode+Gender+age_group, data = df, FUN=clen)
+etable <- summaryBy(Impressions~scode+Gender+age_group+day, data = df, FUN=clen)
+summary_df <- rbind(summary_df, etable)
 rm(df)
-counter+1
-
+counter <- counter+1
+print(counter)
+}
 
 #for(i in counter:dirlength){
 #  nam <- paste("etable", counter, ".csv", sep="")
 #  assign(nam,1:i)
 #}
-}
